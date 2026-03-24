@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Bio para Instagram y TikTok con IA</title>
+  <meta name="description" content="Crea la bio perfecta para Instagram o TikTok gratis con inteligencia artificial. Solo rellena el formulario y obtén 3 opciones únicas al instante." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2872697524772518" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #2a2a3a;
+      --accent: #c8f250;
+      --accent2: #7c6ff7;
+      --text: #f0f0f8;
+      --muted: #888899;
+      --radius: 16px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background blobs */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; left: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,111,247,0.15) 0%, transparent 70%);
+      pointer-events: none;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -200px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,242,80,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      animation: drift 10s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(40px, 30px); } }
+
+    header {
+      text-align: center;
+      padding: 64px 20px 48px;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(200,242,80,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(200,242,80,0.3);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    input, select, textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(124,111,247,0.12);
+    }
+
+    select option { background: #1a1a2e; }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .platform-toggle {
+      display: flex;
+      gap: 8px;
+    }
+
+    .platform-btn {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
+    .platform-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200,242,80,0.06);
+    }
+
+    .generate-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #0a0a0f;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 16px;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+
+    .generate-btn:hover { background: #d4ff60; transform: translateY(-1px); }
+    .generate-btn:active { transform: translateY(0); }
+    .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .generate-btn.loading .spinner { display: block; }
+    .generate-btn.loading .btn-text { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Results */
+    .results { display: none; }
+    .results.visible { display: block; animation: fadeUp 0.4s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+
+    .results-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.75rem;
+    }
+
+    .bio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .bio-card:hover { border-color: var(--accent2); }
+
+    .bio-num {
+      position: absolute;
+      top: 16px; left: 20px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .bio-text {
+      padding-top: 20px;
+      font-size: 1rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      color: var(--text);
+    }
+
+    .bio-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .char-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .copy-btn.copied { border-color: var(--accent); color: var(--accent); }
+
+    .error-msg {
+      background: rgba(255,80,80,0.08);
+      border: 1px solid rgba(255,80,80,0.3);
+      border-radius: 12px;
+      color: #ff8080;
+      padding: 16px 20px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 32px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    /* Ad placeholder */
+    .ad-placeholder {
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">✨ Gratis con IA</div>
+    <h1>Genera tu <span>bio perfecta</span><br>en segundos</h1>
+    <p>Para Instagram, TikTok o cualquier red social. Solo rellena el formulario y la IA crea 3 opciones únicas para ti.</p>
+  </header>
+
+  <div class="container">
+
+    <!-- Ad slot top (reemplaza con tu código AdSense) -->
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="XXXXXXX"></ins> -->
+    <!-- <div class="ad-placeholder">📢 Espacio publicitario</div> -->
+
+    <div class="card">
+      <div class="form-grid">
+
+        <div class="field full">
+          <label>Plataforma</label>
+          <div class="platform-toggle">
+            <button class="platform-btn active" data-platform="Instagram" onclick="selectPlatform(this)">📸 Instagram</button>
+            <button class="platform-btn" data-platform="TikTok" onclick="selectPlatform(this)">🎵 TikTok</button>
+            <button class="platform-btn" data-platform="Twitter/X" onclick="selectPlatform(this)">🐦 Twitter/X</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Tu nombre o marca</label>
+          <input type="text" id="nombre" placeholder="Ej: Ana García / TechZone" maxlength="60" />
+        </div>
+
+        <div class="field">
+          <label>Nicho o temática</label>
+          <input type="text" id="nicho" placeholder="Ej: fitness, gaming, moda..." maxlength="80" />
+        </div>
+
+        <div class="field">
+          <label>Tono</label>
+          <select id="tono">
+            <option value="profesional">Profesional</option>
+            <option value="divertido y cercano">Divertido y cercano</option>
+            <option value="motivacional">Motivacional</option>
+            <option value="minimalista">Minimalista</option>
+            <option value="creativo y original">Creativo y original</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Idioma</label>
+          <select id="idioma">
+            <option value="español">Español 🇪🇸</option>
+            <option value="inglés">Inglés 🇬🇧</option>
+            <option value="español e inglés mezclados">Spanglish 🌍</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>¿Qué haces o qué ofreces? (opcional)</label>
+          <textarea id="descripcion" placeholder="Ej: Subo recetas saludables, comparto trucos de programación, vendo ropa vintage..."></textarea>
+        </div>
+
+      </div>
+
+      <button class="generate-btn" id="generateBtn" onclick="generateBios()">
+        <div class="spinner"></div>
+        <span class="btn-text">✨ Generar bios con IA</span>
+      </button>
+    </div>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="results" id="results">
+      <div class="results-title">🎯 Tus 3 opciones</div>
+      <div id="biosContainer"></div>
+    </div>
+
+    <!-- Ad slot bottom -->
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="XXXXXXX"></ins> -->
+
+  </div>
+
+  <footer>
+    Hecho con ❤️ y IA · <a href="#">Política de privacidad</a>
+  </footer>
+
+  <script>
+    let selectedPlatform = 'Instagram';
+
+    function selectPlatform(btn) {
+      document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedPlatform = btn.dataset.platform;
+    }
+
+    async function generateBios() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const nicho = document.getElementById('nicho').value.trim();
+      const tono = document.getElementById('tono').value;
+      const idioma = document.getElementById('idioma').value;
+      const descripcion = document.getElementById('descripcion').value.trim();
+
+      if (!nicho) {
+        showError('Por favor, indica al menos tu nicho o temática.');
+        return;
+      }
+
+      const btn = document.getElementById('generateBtn');
+      const results = document.getElementById('results');
+      const errorMsg = document.getElementById('errorMsg');
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+      errorMsg.style.display = 'none';
+      results.classList.remove('visible');
+
+      const maxChars = selectedPlatform === 'Twitter/X' ? 160 : 150;
+
+      const prompt = `Eres un experto en redes sociales y copywriting. 
+Genera EXACTAMENTE 3 opciones de bio para ${selectedPlatform} con estas características:
+- Nombre/marca: ${nombre || 'No especificado'}
+- Nicho: ${nicho}
+- Tono: ${tono}
+- Idioma: ${idioma}
+- Descripción adicional: ${descripcion || 'Ninguna'}
+- Máximo ${maxChars} caracteres por bio
+- Usa emojis apropiados si encajan con el tono
+- Incluye un CTA sutil si tiene sentido
+
+Devuelve SOLO las 3 bios numeradas así (sin texto extra antes ni después):
+1. [bio aquí]
+2. [bio aquí]  
+3. [bio aquí]`;
+
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+
+        if (!response.ok) throw new Error('Error en la API');
+
+        const data = await response.json();
+        const text = data.content[0].text;
+
+        // Parse the 3 bios
+        const lines = text.split('\n').filter(l => l.trim());
+        const bios = [];
+        let current = '';
+
+        for (const line of lines) {
+          if (/^[123][\.\)]/.test(line.trim())) {
+            if (current) bios.push(current.trim());
+            current = line.replace(/^[123][\.\)]\s*/, '');
+          } else if (current) {
+            current += '\n' + line;
+          }
+        }
+        if (current) bios.push(current.trim());
+
+        if (bios.length === 0) {
+          // fallback: split by double newline
+          const parts = text.split(/\n\n+/).filter(p => p.trim());
+          bios.push(...parts.slice(0, 3));
+        }
+
+        renderBios(bios.slice(0, 3));
+
+      } catch (err) {
+        showError('Hubo un error al generar las bios. Inténtalo de nuevo en unos segundos.');
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    function renderBios(bios) {
+      const container = document.getElementById('biosContainer');
+      container.innerHTML = '';
+
+      bios.forEach((bio, i) => {
+        const chars = bio.length;
+        const card = document.createElement('div');
+        card.className = 'bio-card';
+        card.innerHTML = `
+          <div class="bio-num">Opción ${i + 1}</div>
+          <div class="bio-text">${escapeHtml(bio)}</div>
+          <div class="bio-footer">
+            <span class="char-count">${chars} caracteres</span>
+            <button class="copy-btn" onclick="copyBio(this, ${JSON.stringify(bio)})">
+              📋 Copiar
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      const results = document.getElementById('results');
+      results.classList.add('visible');
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function copyBio(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✅ Copiada';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = '📋 Copiar';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // Allow Enter to submit
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.ctrlKey) generateBios();
+    });
+  </script>
+
+</body>
+</html>
